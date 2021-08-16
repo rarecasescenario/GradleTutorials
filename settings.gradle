@@ -5,3 +5,4 @@ pluginManagement {
 }
 rootProject.name = 'GradleTutorials'
 include('GradleWebLoggerWar')
+include('PlainSpringWithoutBoot')

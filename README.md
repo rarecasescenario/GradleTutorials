@@ -13,5 +13,3 @@ http://localhost:9080/GradleWebLoggerWar/status
 How to generate ssh key
 http://linuxproblem.org/art_9.html
 ```
-
-Dude facking it
