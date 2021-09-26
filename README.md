@@ -13,3 +13,21 @@ http://localhost:9080/GradleWebLoggerWar/status
 How to generate ssh key
 http://linuxproblem.org/art_9.html
 ```
+
+<feature>appSecurity-3.0</feature>
+
+
+
+
+
+<basicRegistry id="basic" realm="BasicRealm">
+	<user name="LOGUSER" password="welcome123"/>
+</basicRegistry>
+
+<webApplication id="restServicesWar" location="restServices.war" name="restServicesWar">
+	<application-bnd>
+		<security-role name="restClient">
+			<user name="LOGUSER"/>
+		</security-role>
+	</applicaiton-bnd>
+</webApplication>
