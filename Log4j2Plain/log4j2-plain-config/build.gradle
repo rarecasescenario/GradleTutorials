@@ -1,0 +1,102 @@
+import org.apache.tools.ant.filters.*
+import java.text.SimpleDateFormat
+import org.ajoberstar.grgit.Grgit
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "sonatype"
+            url = "https://plugins.gradle.org/plugin"
+        }
+    }
+}
+
+
+plugins {
+	id 'java-library'
+	id "org.ajoberstar.grgit" version "5.0.0-rc.3"
+}
+
+
+dependencies {
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'
+}
+
+
+task getDeps(type: Copy) {
+	group='package'
+	description='Download dependencies'
+  from sourceSets.main.runtimeClasspath
+  into 'build/deploy/dist'
+}
+
+
+
+task createPackageDir {
+	group='package'
+	description='Creating a depolyment package dirctory'
+	doLast{
+		mkdir "$buildDir/deploy"
+		mkdir "$buildDir/deploy/bin"
+		mkdir "$buildDir/deploy/config"
+		mkdir "$buildDir/deploy/dist"
+	}
+}
+
+task collectBinScripts(type: Copy) {
+	group='package'
+	description='Copy bin scripts'
+	from "$project.rootDir/log4j2-plain-config/src/main/resources/start.bat"
+	into "$buildDir/deploy/bin" filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
+}
+
+task collectJars(type: Copy) {
+	group='package'
+	description='Copy app jar files'
+	from "$project.rootDir/log4j2-plain-jar/build/libs"
+//	from "$project.rootDir/lib"
+	into "$buildDir/deploy/dist"
+}
+
+task naiveCloneFileLister {
+	doLast{
+		def tgzFiles = fileTree(dir: "$buildDir/deploy")
+		println tgzFiles.files
+	}
+}
+
+task makeCloneTgz(type: Tar) {
+	group='package'
+	description='Make a zip file'
+	def cleanVersion = project.version.toString().replace("\"","")
+	
+	archiveFileName="log4j2-plain-" + "${envName}-" + cleanVersion + ".tgz"
+	destinationDirectory=file("$rootDir/log4j2-plain-config/build")
+	
+	extension 'tgz'
+	compression=Compression.GZIP
+	from "$buildDir/deploy"
+	doLast{
+		println "Archive Name: " + archiveFileName
+		println relativePath(destinationDirectory)
+		println relativePath(archivePath)
+	}
+}
+
+task packageCloneDeploy {
+	group="package"
+	description="Create a distribution package"
+	dependsOn "createPackageDir"
+	dependsOn "getDeps"
+	dependsOn "collectBinScripts"
+	dependsOn "collectJars"
+	dependsOn "makeCloneTgz"
+	dependsOn "naiveCloneFileLister"
+	tasks.findByName("collectBinScripts").mustRunAfter "createPackageDir"
+	tasks.findByName("getDeps").mustRunAfter "createPackageDir"
+	tasks.findByName("collectJars").mustRunAfter "createPackageDir"
+	tasks.findByName("makeCloneTgz").mustRunAfter "collectJars"
+	tasks.findByName("naiveCloneFileLister").mustRunAfter "makeCloneTgz"
+}
