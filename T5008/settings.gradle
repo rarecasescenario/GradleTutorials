@@ -4,6 +4,5 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = 'Log4j2Plain'
-include('log4j2-plain-jar')
-include('log4j2-plain-config')
+rootProject.name = 'T5008'
+include('t5008Jar')
