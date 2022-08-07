@@ -1,4 +1,6 @@
 
+#Setting git localy
+```
 git config --global user.email "rare.case.scenario@gmail.com"
 git config --global user.name "rarecasescenario"
 
@@ -6,7 +8,7 @@ What if you set the git config info just for the current repository?
 
   git config user.email "you@example.com"
   git config user.name "Your Name"
-
+```
 
 #Logging with log4j2
 ```
