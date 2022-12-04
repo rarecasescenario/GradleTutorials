@@ -1,1 +1,0 @@
-java -cp .;C:\tmp\deploy\dist\*;C:\tmp\deploy\config com.tutorials.TestLog4j2Main

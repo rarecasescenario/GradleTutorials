@@ -1,9 +1,0 @@
-pluginManagement {
-   repositories {
-       mavenCentral()
-   }
-}
-rootProject.name = 'GradleTutorials'
-include('GradleWebLoggerWar')
-include('PlainSpringWithoutBoot')
-include('ConcurrencyTutorial')
