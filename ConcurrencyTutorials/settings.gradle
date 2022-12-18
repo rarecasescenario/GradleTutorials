@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'ConcurrencyTutorials'
+include('facility')
+include('collections')
+include('executors')
