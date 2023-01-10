@@ -7,3 +7,6 @@ build
 .project
 .gitattributes
 .settings
+.classpath
+.project
+

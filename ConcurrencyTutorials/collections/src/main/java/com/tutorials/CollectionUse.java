@@ -28,7 +28,7 @@ public class CollectionUse {
 		sl.add("C");
 		sl.add("BNS.TO");
 		sl.add("BMO.TO");
-
+		
 		sl.stream()
 		.filter(t -> t.contains("B"))
 		.forEach(System.out::println);
