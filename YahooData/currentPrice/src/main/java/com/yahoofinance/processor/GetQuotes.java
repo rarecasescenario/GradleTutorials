@@ -32,7 +32,7 @@ public class GetQuotes {
 				.collect(Collectors.toList());
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");
-	    sdf.setTimeZone(TimeZone.getDefault()); 
+	    sdf.setTimeZone(TimeZone.getDefault());  
 	   	
 	    BigDecimal critical = new BigDecimal("-1.05");
 		downs.forEach(t -> {
