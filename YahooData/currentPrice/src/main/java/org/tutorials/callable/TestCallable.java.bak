@@ -1,7 +1,6 @@
 package org.tutorials.callable;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -95,7 +94,7 @@ public class TestCallable {
 			// System.out.println("ERROR for symbol: " + symbol);
 		}
 
-		return new SymbolCurrentState(symbol, dPrice, dPercent, null, null);
+		return new SymbolCurrentState(symbol, dPrice, dPercent, null);
 	}
 	
 	// https://www.baeldung.com/java-executor-service-tutorial
@@ -125,8 +124,7 @@ public class TestCallable {
 			Future<SymbolCurrentState> future =	futureList.get(y);
 			SymbolCurrentState p = future.get();
 			//System.out.println("Callable result = " + p.getSymbol() + " " + p.getPrice() + "  PrevClose: " + p.getPreviousClose() + " Changed %: " + p.getChangedPercent());
-			BigDecimal outstandingShares = p.getMarketCap().divide(p.getPrice(), MathContext.DECIMAL32);
-			System.out.printf("%-8S | %6.2f | %5.2f | %6.2f | %12.6f | %n", p.getSymbol(), p.getPrice(), p.getChangedPercent(), p.getMarketCap(), outstandingShares);
+			System.out.printf("%-8S | %6.2f | %5.2f | %n", p.getSymbol(), p.getPrice(), p.getChangedPercent());
 			
 		}
 		

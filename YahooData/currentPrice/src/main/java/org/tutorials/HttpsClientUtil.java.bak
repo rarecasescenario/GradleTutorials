@@ -91,7 +91,6 @@ public class HttpsClientUtil {
 		String sPrice = null;
 		String sPreviousClose = null;
 		String sChangedPercent = null;
-		String sMarketCap = null;
 	
 		InputStreamReader isr = new InputStreamReader(yahooDataPage);
 		BufferedReader in = new BufferedReader(isr);
@@ -135,46 +134,28 @@ public class HttpsClientUtil {
 				sChangedPercent = makeItDigit(rawPercent);
 				// System.out.println("PERCENT: " + percent);
 			}
-			
-			String rawMarketCap = null;
-			if (inputLine.contains("data-test=\"MARKET_CAP-value")) {
-
-				// System.out.println("pStart = " + pStart);
-				int pStart = inputLine.indexOf("data-test=\"MARKET_CAP-value\">") + 29;
-				int pEnd = pStart + 9;
-				
-				rawMarketCap = inputLine.substring(pStart, pEnd);
-				// System.out.println("Percent: " + rawPercent);
-				sMarketCap = makeItDigit(rawMarketCap);
-				// System.out.println("MARKET CAP: " + sMarketCap);
-			}			
-			
 		}
 		
 		//SymbolCurrentState(String symbol, BigDecimal price, BigDecimal previousClose, BigDecimal changedPercent)
 		BigDecimal dPrice = null;
 		BigDecimal dPreviousClose = null;
 		BigDecimal dChangedPercent = null;
-		BigDecimal dMarketCap = null;
 		try {
 			dPrice = new BigDecimal(sPrice);
 			dPreviousClose = new BigDecimal(sPreviousClose);
 			dChangedPercent = new BigDecimal(sChangedPercent);
-			dMarketCap = new BigDecimal(sMarketCap);
 		//} catch (NumberFormatException nfe) {
 		} catch (Exception nfe) {
 			System.out.println("ERROR SYMBOL: " + symbol);
 			dPrice = new BigDecimal("0");
 			dPreviousClose = new BigDecimal("0");
 			dChangedPercent = new BigDecimal("0");
-			dMarketCap = new BigDecimal("0");
 		}
 		
 		result.setSymbol(symbol);
 		result.setPrice(dPrice);
 		result.setPreviousClose(dPreviousClose);
 		result.setChangedPercent(dChangedPercent);
-		result.setMarketCap(dMarketCap);
 
 		in.close();
 		return result;
@@ -192,8 +173,7 @@ public class HttpsClientUtil {
 		
 		//Today watch list Feb 16, 2022
 		//symbols = "AFRM,ZM,F,FIS,PTON,WELL,ENB.TO,SLF.TO,RY.TO,ARX.TO";
-		//symbols = "ENB.TO, TD.TO, BMO.TO, RY.TO, ABX.TO, CCO.TO, BNS.TO, POW.TO, CM.TO, SLF.TO, NA.TO, LB.TO, CWB.TO, CNQ.TO, MFC.TO, GWO.TO,IGM.TO, SU.TO, T.TO, BCE.TO, CP.TO, NTR.TO, ATD.TO, SHOP.TO, RCI-B.TO, BB.TO, FM.TO, MEG.TO";
-		symbols = "TD.TO, ENB.TO, CNQ.TO, CVE.TO, SU.TO, RY.TO";
+		symbols = "ABX.TO, CCO.TO, BNS.TO, POW.TO, CM.TO, TD.TO, SLF.TO, NA.TO, BMO.TO, RY.TO, LB.TO, CWB.TO, CNQ.TO, MFC.TO, GWO.TO,IGM.TO, SU.TO, T.TO, BCE.TO, ENB.TO, CP.TO, NTR.TO, ATD.TO, SHOP.TO, RCI-B.TO, BB.TO, FM.TO, MEG.TO";
 		
 		// most active
 		//String symbols = "AMD,SOFI,RBGLY,AAPL,GT,SPLK,TSLA,F,AMC";
