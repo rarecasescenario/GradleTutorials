@@ -6,6 +6,7 @@
 		<Property name="LOG_DIR">C:/tmp/logs</Property>
 		<Property name="LOG_FILE_NAME">mtl</Property>
 		
+		<Property name="LOG_DATA_FILE_NAME">mtl-data</Property>
 		
 	</Properties>
 
@@ -26,15 +27,33 @@
 		</RollingFile>
 
 
+		<RollingFile name="DATA_LOG" fileName="${LOG_DIR}/${LOG_DATA_FILE_NAME}.log"
+			filePattern="${LOG_DIR}/${LOG_DATA_FILE_NAME}-%d{yyyy-MM-dd}.log">
+			<DefaultRolloverStrategy max="285" />
+			<PatternLayout>
+				<pattern>${NDC_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"	modulate="true" />
+			</Policies>
+		</RollingFile>
+
+
 	</Appenders>
 	<Loggers>
-		<Logger name="org.tutorials" additivity="false" level="info">
+		<Logger name="org.tutorials" additivity="false" level="error">
 			<AppenderRef ref="DAILY_LOG" />
+			<AppenderRef ref="Console" />
+		</Logger>
+
+		<Logger name="data-log" additivity="false" level="info">
+			<AppenderRef ref="DATA_LOG" />
 			<AppenderRef ref="Console" />
 		</Logger>
 	
 		<Root level="debug" additivity="false">
 			<AppenderRef ref="DAILY_LOG" />
+		
 		</Root>
 	</Loggers>
 </Configuration>
